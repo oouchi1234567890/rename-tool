@@ -1,0 +1,15 @@
+Lucide icons used in README.md
+Website: https://lucide.dev/icons/
+SVG source: lucide-static v1.47.0 (as marked in each SVG)
+
+Icons:
+https://lucide.dev/icons/sparkles
+https://lucide.dev/icons/list-checks
+https://lucide.dev/icons/folder-tree
+https://lucide.dev/icons/mouse-pointer-click
+https://lucide.dev/icons/info
+https://lucide.dev/icons/shield-check
+https://lucide.dev/icons/rocket
+
+Modification: SVG stroke changed from currentColor to #dc2626 for better visibility.
+License: see LICENSE in this directory.
