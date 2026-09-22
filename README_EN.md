@@ -19,24 +19,27 @@ The tool starts with a simple operation: renaming files directly inside one fold
 
 | File | Purpose |
 |---|---|
+| `RenameTool.jar` | Executable JAR that runs with a JRE |
 | `RenameTool.java` | Java source code |
-| `RenameTool.class` | Generated when `run.bat` runs |
 | `rename.txt` | Rename rule: text to find on the first line and replacement text on the second line |
-| `run.bat` | Batch file that compiles and starts the tool |
+| `run.bat` | Batch file that starts the JAR |
+| `build.bat` | Batch file that rebuilds the JAR from source (requires a JDK) |
 | `Restore.bat` | Batch file generated after renaming to undo the changes |
 
 ## <img src="images/mouse-pointer-click.svg" width="20" height="20" valign="middle"> How to use
 
-1. Install a JDK and make sure `java` and `javac` are available.
+1. Install a JRE version 8 or newer and make sure `java` is available.
 2. Open `rename.txt`. Put the text to find on the first line and its replacement on the second line, then save the file.
-3. Place `RenameTool.java`, `rename.txt`, and `run.bat` in the same folder as the files you want to rename.
+3. Place `RenameTool.jar`, `rename.txt`, and `run.bat` in the same folder as the files you want to rename.
 4. Double-click `run.bat`.
 5. Review the results shown in the console, including each old and new filename.
 6. To undo the changes, double-click the `Restore.bat` created in that folder.
 
+To rebuild the JAR from source, run `build.bat` with a JDK version 9 or newer. A JDK is not needed for normal use.
+
 ## <img src="images/info.svg" width="20" height="20" valign="middle"> How it works
 
-- Only files in the same folder as the launcher are processed. Subfolders and the folders themselves are left unchanged.
+- Only files in the same folder as the JAR are processed. Subfolders, folders themselves, and the tool's own files are left unchanged.
 - If a filename contains the text from the first line of `rename.txt`, that text is replaced. The whole filename does not need to match.
 - If the new filename already exists, the file is skipped to avoid overwriting it.
 - The program uses UTF-8 for its output, and `run.bat` switches the console to UTF-8 to prevent garbled text.

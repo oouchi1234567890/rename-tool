@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,8 @@ public class RenameTool {
     private static final String RESTORE_FILE_NAME = "Restore.bat";
 
     public static void main(String[] args) {
-        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         try {
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
             File baseDir = getExecutableDirectory();
             System.out.println("対象ディレクトリ: " + baseDir.getAbsolutePath());
 
@@ -36,7 +37,7 @@ public class RenameTool {
             int renamedCount = 0;
             for (File file : files) {
                 String name = file.getName();
-                if (name.equals(CONFIG_FILE_NAME) || name.equals(RESTORE_FILE_NAME)) {
+                if (isToolFile(name)) {
                     continue;
                 }
                 if (name.contains(from)) {
@@ -65,6 +66,19 @@ public class RenameTool {
         } catch (Exception e) {
             System.out.println("エラーが発生しました: " + e.getMessage());
         }
+    }
+
+    /** ツール自身のファイルは変更対象にしない */
+    private static boolean isToolFile(String name) {
+        return name.equalsIgnoreCase(CONFIG_FILE_NAME)
+                || name.equalsIgnoreCase(RESTORE_FILE_NAME)
+                || name.equalsIgnoreCase("RenameTool.jar")
+                || name.equalsIgnoreCase("RenameTool.java")
+                || name.equalsIgnoreCase("RenameTool.class")
+                || name.equalsIgnoreCase("run.bat")
+                || name.equalsIgnoreCase("build.bat")
+                || name.equalsIgnoreCase("README.md")
+                || name.equalsIgnoreCase("README_EN.md");
     }
 
     /** リネーム内容を元に戻すRestore.batを作成する */
@@ -100,7 +114,7 @@ public class RenameTool {
 
     /** 実行中のjar（またはクラスファイル）が置かれているディレクトリを取得する */
     private static File getExecutableDirectory() throws URISyntaxException {
-        Path path = Path.of(
+        Path path = Paths.get(
                 RenameTool.class.getProtectionDomain().getCodeSource().getLocation().toURI());
         File location = path.toFile();
         return location.isDirectory() ? location : location.getParentFile();

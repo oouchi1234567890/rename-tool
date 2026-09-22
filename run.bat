@@ -1,12 +1,12 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0"
-javac -encoding UTF-8 RenameTool.java
-if errorlevel 1 goto compile_failed
-java RenameTool
+if not exist "RenameTool.jar" goto missing_jar
+java -jar RenameTool.jar
+set "result=%errorlevel%"
 pause
-exit /b 0
-:compile_failed
-echo Compilation failed. Please install a JDK and check javac.
+exit /b %result%
+:missing_jar
+echo RenameTool.jar was not found.
 pause
 exit /b 1
