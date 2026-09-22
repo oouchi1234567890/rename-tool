@@ -4,7 +4,8 @@
 
 ## <img src="images/sparkles.svg" width="20" height="20" valign="middle"> Introduction
 
-While preparing to start a new job, I remembered how often I had needed to rename files at my previous workplace. I decided to make a Java tool so I would be ready to handle the same task again.
+On a personal note, I'll be starting at a new workplace in October.
+While preparing, I remembered how often I had needed to rename files at my previous workplace. I decided to make a Java tool so I would be ready to handle the same task again.
 
 The tool starts with a simple operation: renaming files directly inside one folder. I may add more features as needed.
 
