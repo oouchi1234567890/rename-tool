@@ -45,6 +45,15 @@ JARをソースコードから作り直す場合のみ、JDK 9以降で`build.ba
 - 変更後と同じ名前のファイルが既に存在する場合は、上書き事故を防ぐためスキップされます
 - 画面表示の文字化けを防ぐため、プログラム側の出力をUTF-8に固定し、`run.bat`側でも画面の文字コードをUTF-8に切り替えています
 
+## 使用しているJavaの技術
+
+- **ファイル操作**: `File`・`Path`・`Files`を使い、JARの配置場所を調べ、`rename.txt`を読み込みます。`listFiles(File::isFile)`で同じフォルダ内のファイルだけを取得し、`File.renameTo()`で名前を変更します。
+- **文字の検索・置換**: `String.contains()`でファイル名に検索文字が含まれるか調べ、`String.replace()`で一致した部分を置き換えます。正規表現ではなく、指定した文字列をそのまま扱います。
+- **バッチファイルでのリネーム戻し**: 変更に成功したファイルの逆向きの`ren`コマンドを`List<String>`に記録します。`Files.newBufferedWriter()`で`Restore.bat`を書き出し、実行すると元の名前に戻せます。
+- **三項演算子**: `location.isDirectory() ? location : location.getParentFile()`で、実行場所がディレクトリならその場所を、JARファイルなら親フォルダを選びます。
+- **文字コードと後片付け**: `StandardCharsets.UTF_8`を指定して設定ファイルの読み込みと復元バッチの書き出しを行います。`try-with-resources`で書き込み後のファイルを閉じます。
+- **例外処理**: `try-catch`で読み込みや書き込みなどのエラーを受け取り、コンソールに内容を表示します。
+
 ## <img src="images/shield-check.svg" width="20" height="20" valign="middle"> 動作確認済みの内容
 
 - テスト用フォルダを作成し、複数のファイルを対象にリネームが正しく行われることを確認済み

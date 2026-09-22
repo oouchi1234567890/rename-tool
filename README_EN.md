@@ -44,6 +44,15 @@ To rebuild the JAR from source, run `build.bat` with a JDK version 9 or newer. A
 - If the new filename already exists, the file is skipped to avoid overwriting it.
 - The program uses UTF-8 for its output, and `run.bat` switches the console to UTF-8 to prevent garbled text.
 
+## Java techniques used
+
+- **File operations**: `File`, `Path`, and `Files` locate the JAR and read `rename.txt`. `listFiles(File::isFile)` selects files directly in the same folder, and `File.renameTo()` changes their names.
+- **Finding and replacing text**: `String.contains()` checks whether a filename contains the search text, and `String.replace()` replaces matching text. These methods treat the search text literally, without regular expressions.
+- **Batch file for undoing renames**: The program stores reverse `ren` commands for successfully renamed files in a `List<String>`. It writes them to `Restore.bat` with `Files.newBufferedWriter()`, so running the batch file restores the original names.
+- **Ternary operator**: `location.isDirectory() ? location : location.getParentFile()` selects the directory itself when running from class files, or the parent directory when running from a JAR.
+- **Character encoding and cleanup**: `StandardCharsets.UTF_8` is used when reading the configuration and writing the restore batch file. `try-with-resources` closes the writer after use.
+- **Exception handling**: `try-catch` handles read and write errors and displays the error message in the console.
+
 ## <img src="images/shield-check.svg" width="20" height="20" valign="middle"> Verified behavior
 
 - Confirmed that multiple files in a test folder are renamed correctly.
